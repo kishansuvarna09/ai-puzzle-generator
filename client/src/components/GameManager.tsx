@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { RiddleDisplay } from './RiddleDisplay';
 
 // We'll assume puter is available globally or imported if we had types.
@@ -59,7 +59,11 @@ export const GameManager: React.FC = () => {
         }
     };
 
+    const hasFetched = useRef(false);
+
     useEffect(() => {
+        if (hasFetched.current) return;
+        hasFetched.current = true;
         fetchRiddle();
     }, []);
 

@@ -1,0 +1,15 @@
+{
+    "name": "kay-puzzle-monorepo",
+    "private": true,
+    "workspaces": [
+        "client"
+    ],
+    "scripts": {
+        "dev:client": "npm run dev --workspace=client",
+        "dev:server": "cd server && .\\venv\\Scripts\\python -m uvicorn main:app --reload",
+        "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\""
+    },
+    "devDependencies": {
+        "concurrently": "^9.0.0"
+    }
+}

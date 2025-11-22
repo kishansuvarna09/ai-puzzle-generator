@@ -102,7 +102,7 @@ export const GameManager: React.FC = () => {
             </div>
 
             {status === 'GUESSING' && (
-                <form onSubmit={handleGuess} style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
+                <form onSubmit={handleGuess} className="guess-form">
                     <input
                         type="text"
                         value={guess}

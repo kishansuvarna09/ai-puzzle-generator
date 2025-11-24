@@ -1,15 +1,15 @@
 import React from 'react';
 
-interface RiddleDisplayProps {
+interface PuzzleDisplayProps {
     svgContent: string | null;
     isLoading: boolean;
 }
 
-export const RiddleDisplay: React.FC<RiddleDisplayProps> = ({ svgContent, isLoading }) => {
+export const PuzzleDisplay: React.FC<PuzzleDisplayProps> = ({ svgContent, isLoading }) => {
     if (isLoading) {
         return (
             <div className="svg-container">
-                <div className="loading-spinner">Generating Riddle...</div>
+                <div className="loading-spinner">Generating Puzzle...</div>
             </div>
         );
     }
@@ -17,7 +17,7 @@ export const RiddleDisplay: React.FC<RiddleDisplayProps> = ({ svgContent, isLoad
     if (!svgContent) {
         return (
             <div className="svg-container">
-                <p>No riddle loaded.</p>
+                <p>No puzzle loaded.</p>
             </div>
         );
     }

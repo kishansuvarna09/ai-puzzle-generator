@@ -1,30 +1,38 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { RiddleDisplay } from './RiddleDisplay';
+import { PuzzleDisplay } from './PuzzleDisplay';
 
-// We'll assume puter is available globally or imported if we had types.
-// Since we installed it, we can try importing, but for now let's use window.puter or direct import if possible.
-// The user installed @puter/js, so let's try to import it.
-// If types are missing we might need a declaration or just use 'any'.
-// import puter from 'puter'; // Using global script tag instead
-
-interface RiddleData {
+interface PuzzleData {
     word: string;
     svg: string;
 }
 
 export const GameManager: React.FC = () => {
-    const [riddle, setRiddle] = useState<RiddleData | null>(null);
+    const [puzzle, setPuzzle] = useState<PuzzleData | null>(null);
     const [loading, setLoading] = useState(false);
     const [guess, setGuess] = useState('');
     const [status, setStatus] = useState<'GUESSING' | 'CORRECT' | 'REVEALED'>('GUESSING');
     const [feedback, setFeedback] = useState('');
 
-    const fetchRiddle = async () => {
+    const fetchPuzzle = async () => {
         setLoading(true);
-        setRiddle(null);
+        setPuzzle(null);
         setGuess('');
         setStatus('GUESSING');
         setFeedback('');
+
+        const topics = [
+            'animals',
+            'nature',
+            'food',
+            'body parts',
+            'colors',
+            'weather',
+            'emotions',
+            'time',
+            'music',
+            'sports'
+        ];
+        const randomTopic = topics[Math.floor(Math.random() * topics.length)];
 
         try {
             const response = await fetch('http://localhost:8000/generate-puzzle', {
@@ -32,7 +40,7 @@ export const GameManager: React.FC = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ topic: 'idioms' }),
+                body: JSON.stringify({ topic: randomTopic }),
             });
 
             if (!response.ok) {
@@ -46,13 +54,13 @@ export const GameManager: React.FC = () => {
             const jsonMatch = content.match(/\{[\s\S]*\}/);
             if (jsonMatch) {
                 const parsed = JSON.parse(jsonMatch[0]);
-                setRiddle(parsed);
+                setPuzzle(parsed);
             } else {
                 console.error("Failed to parse JSON from API response:", content);
-                setFeedback("Error generating riddle. Please try again.");
+                setFeedback("Error generating puzzle. Please try again.");
             }
         } catch (error) {
-            console.error("Error fetching riddle:", error);
+            console.error("Error fetching puzzle:", error);
             setFeedback("Failed to connect to Puzzle API. Make sure the server is running.");
         } finally {
             setLoading(false);
@@ -64,16 +72,16 @@ export const GameManager: React.FC = () => {
     useEffect(() => {
         if (hasFetched.current) return;
         hasFetched.current = true;
-        fetchRiddle();
+        fetchPuzzle();
     }, []);
 
     const handleGuess = (e: React.FormEvent) => {
         e.preventDefault();
-        if (!riddle || status !== 'GUESSING') return;
+        if (!puzzle || status !== 'GUESSING') return;
 
         const normalize = (str: string) => str.toLowerCase().replace(/[^a-z0-9]/g, '');
         const normalizedGuess = normalize(guess);
-        const normalizedAnswer = normalize(riddle.word);
+        const normalizedAnswer = normalize(puzzle.word);
 
         if (normalizedGuess === normalizedAnswer) {
             setStatus('CORRECT');
@@ -86,16 +94,16 @@ export const GameManager: React.FC = () => {
     };
 
     const handleReveal = () => {
-        if (!riddle) return;
+        if (!puzzle) return;
         setStatus('REVEALED');
-        setFeedback(`The answer was: ${riddle.word}`);
+        setFeedback(`The answer was: ${puzzle.word}`);
     };
 
     return (
         <div className="card">
             <h1>AI Visual Puzzle</h1>
 
-            <RiddleDisplay svgContent={riddle?.svg || null} isLoading={loading} />
+            <PuzzleDisplay svgContent={puzzle?.svg || null} isLoading={loading} />
 
             <div className={`status-message ${status === 'CORRECT' ? 'correct' : 'incorrect'}`}>
                 {feedback}
@@ -119,7 +127,7 @@ export const GameManager: React.FC = () => {
 
             {(status === 'CORRECT' || status === 'REVEALED') && (
                 <div className="controls">
-                    <button onClick={fetchRiddle}>Next Riddle</button>
+                    <button onClick={fetchPuzzle}>Next Puzzle</button>
                 </div>
             )}
         </div>

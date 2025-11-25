@@ -1,0 +1,12 @@
+{
+    "rewrites": [
+        {
+            "source": "/generate-puzzle",
+            "destination": "/server/main.py"
+        },
+        {
+            "source": "/(.*)",
+            "destination": "/client/dist/$1"
+        }
+    ]
+}

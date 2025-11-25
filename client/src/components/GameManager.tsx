@@ -37,7 +37,7 @@ export const GameManager: React.FC = () => {
     const randomTopic = topics[Math.floor(Math.random() * topics.length)]
 
     try {
-      const response = await fetch('http://localhost:8000/generate-puzzle', {
+      const response = await fetch('/generate-puzzle', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

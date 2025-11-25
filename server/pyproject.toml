@@ -9,3 +9,10 @@ dependencies = [
     "python-dotenv",
     "pydantic"
 ]
+
+[tool.black]
+line-length = 88
+target-version = ['py39']
+
+[tool.isort]
+profile = "black"

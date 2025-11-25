@@ -93,7 +93,7 @@ ALLOWED CLUE STYLES (USE ANY THAT FIT THE IDIOM):
    - Ideal for “break”, “split”, “tear”, “crack”
 
 SVG STYLE RULES:
-- width="300" height="300"
+- Use viewBox="0 0 300 300" (DO NOT set fixed width/height attributes on the <svg> tag)
 - Must include a full background rectangle:
   <rect width="300" height="300" fill="black" />
 - All shapes/text must use:

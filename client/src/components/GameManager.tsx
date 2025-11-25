@@ -100,36 +100,49 @@ export const GameManager: React.FC = () => {
     };
 
     return (
-        <div className="card">
-            <h1>AI Visual Puzzle</h1>
-
-            <PuzzleDisplay svgContent={puzzle?.svg || null} isLoading={loading} />
-
-            <div className={`status-message ${status === 'CORRECT' ? 'correct' : 'incorrect'}`}>
-                {feedback}
+        <div className="game-container">
+            <div className="puzzle-section">
+                <div className="header-container">
+                    <h1>Puzzles</h1>
+                    <p className="subtitle">By ItchyGeek</p>
+                </div>
+                <PuzzleDisplay svgContent={puzzle?.svg || null} isLoading={loading} />
+                <div className={`status-message ${status === 'CORRECT' ? 'correct' : 'incorrect'}`}>
+                    {feedback}
+                </div>
             </div>
 
-            {status === 'GUESSING' && (
-                <form onSubmit={handleGuess} className="guess-form">
-                    <input
-                        type="text"
-                        value={guess}
-                        onChange={(e) => setGuess(e.target.value)}
-                        placeholder="What is the phrase?"
-                        autoFocus
-                    />
-                    <div className="controls">
-                        <button type="submit">Guess</button>
-                        <button type="button" className="secondary" onClick={handleReveal}>I give up</button>
-                    </div>
-                </form>
-            )}
+            <div className="interaction-section">
+                {status === 'GUESSING' && (
+                    <form onSubmit={handleGuess} className="guess-form" id="guess-form">
+                        <input
+                            type="text"
+                            value={guess}
+                            onChange={(e) => setGuess(e.target.value)}
+                            placeholder="What is the phrase?"
+                            autoFocus
+                            autoComplete="off"
+                        />
+                    </form>
+                )}
 
-            {(status === 'CORRECT' || status === 'REVEALED') && (
-                <div className="controls">
-                    <button onClick={fetchPuzzle}>Next Puzzle</button>
+                <div className="dock">
+                    {status === 'GUESSING' ? (
+                        <>
+                            <button type="submit" form="guess-form" className="dock-btn primary">
+                                Guess
+                            </button>
+                            <button type="button" className="dock-btn secondary" onClick={handleReveal}>
+                                Next
+                            </button>
+                        </>
+                    ) : (
+                        <button className="dock-btn primary full-width" onClick={fetchPuzzle}>
+                            Next Puzzle
+                        </button>
+                    )}
                 </div>
-            )}
+            </div>
         </div>
     );
 };

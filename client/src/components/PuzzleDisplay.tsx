@@ -22,10 +22,22 @@ export const PuzzleDisplay: React.FC<PuzzleDisplayProps> = ({ svgContent, isLoad
         );
     }
 
+    const processSvg = (svg: string) => {
+        // Remove fixed width and height attributes
+        let processed = svg.replace(/width="\d+"/, 'width="100%"').replace(/height="\d+"/, 'height="100%"');
+
+        // Ensure viewBox exists if it's missing (assuming 300x300 based on generation rules)
+        if (!processed.includes('viewBox')) {
+            processed = processed.replace('<svg', '<svg viewBox="0 0 300 300"');
+        }
+
+        return processed;
+    };
+
     return (
         <div
             className="svg-container"
-            dangerouslySetInnerHTML={{ __html: svgContent }}
+            dangerouslySetInnerHTML={{ __html: processSvg(svgContent) }}
         />
     );
 };

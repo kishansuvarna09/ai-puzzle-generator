@@ -1,0 +1,11 @@
+[project]
+name = "puzzle-api"
+version = "0.1.0"
+description = "AI Visual Puzzle Generator API"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "google-generativeai",
+    "python-dotenv",
+    "pydantic"
+]

@@ -60,7 +60,10 @@ body {
   left: -50%;
   width: 200%;
   height: 200%;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-image: radial-gradient(
+    rgba(255, 255, 255, 0.1) 1px,
+    transparent 1px
+  );
   background-size: 30px 30px;
   animation: moveDots 60s linear infinite;
   opacity: 0.3;
@@ -83,7 +86,11 @@ body {
   left: -20%;
   width: 140%;
   height: 50%;
-  background: radial-gradient(ellipse at center, var(--bg-glow) 0%, transparent 70%);
+  background: radial-gradient(
+    ellipse at center,
+    var(--bg-glow) 0%,
+    transparent 70%
+  );
   opacity: 0.4;
   filter: blur(60px);
   animation: waveFloat 15s ease-in-out infinite alternate;
@@ -97,7 +104,11 @@ body {
   right: -20%;
   width: 120%;
   height: 60%;
-  background: radial-gradient(ellipse at center, var(--accent-start) 0%, transparent 70%);
+  background: radial-gradient(
+    ellipse at center,
+    var(--accent-start) 0%,
+    transparent 70%
+  );
   opacity: 0.15;
   animation: waveFloat 20s ease-in-out infinite alternate-reverse;
   border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
@@ -225,7 +236,9 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   z-index: 1;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 /* The Electric Border Animation */
@@ -236,7 +249,13 @@ body {
   left: -3px;
   right: -3px;
   bottom: -3px;
-  background: linear-gradient(90deg, var(--accent-start), #fff, var(--accent-end), var(--accent-start));
+  background: linear-gradient(
+    90deg,
+    var(--accent-start),
+    #fff,
+    var(--accent-end),
+    var(--accent-start)
+  );
   background-size: 300% 100%;
   z-index: -2;
   border-radius: 3.5rem;

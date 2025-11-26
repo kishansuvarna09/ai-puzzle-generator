@@ -9,8 +9,10 @@ This project is configured for easy deployment on Vercel.
 3.  **Configure Project**:
     *   **Framework Preset**: Vercel should automatically detect it, or you can leave it as "Other".
     *   **Root Directory**: Leave it as `./` (the root).
-    *   **Build Command**: `pnpm build` (This runs the script in the root `package.json` which builds the client).
+    *   **Build Command**: `pnpm build` (configured in `vercel.json`)
+    *   **Install Command**: `pnpm install` (configured in `vercel.json`)
     *   **Output Directory**: `client/dist` (This is where Vite outputs the built files).
+    *   **Note**: The project is configured to use pnpm. Vercel will automatically detect this from the `vercel.json` configuration.
 4.  **Environment Variables**:
     *   Add `GOOGLE_API_KEY` with your Gemini API key.
 5.  **Deploy**: Click "Deploy".

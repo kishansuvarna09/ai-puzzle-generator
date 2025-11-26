@@ -37,7 +37,9 @@ export const GameManager: React.FC = () => {
     const randomTopic = topics[Math.floor(Math.random() * topics.length)]
 
     try {
-      const response = await fetch('/generate-puzzle', {
+      const API_BASE = import.meta.env.VITE_API_BASE_URL || 'api';
+
+      const response = await fetch(`${API_BASE}/generate-puzzle`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

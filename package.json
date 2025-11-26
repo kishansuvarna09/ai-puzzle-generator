@@ -8,6 +8,6 @@
         "build": "cd client && pnpm install && pnpm run build"
     },
     "engines": {
-        "node": "20.x"
+        "node": "22.x"
     }
 }

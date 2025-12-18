@@ -1,5 +1,4 @@
 import os
-import random
 
 import google.generativeai as genai
 from dotenv import load_dotenv
@@ -43,16 +42,10 @@ def generate_puzzle(request: PuzzleRequest):
         raise HTTPException(status_code=500, detail="API Key not configured")
 
     try:
-        topics = [
-            "food and cooking", "travel and adventure", "animals", "weather", 
-            "sports", "emotions", "work and office", "fantasy", "nature"
-        ]
 
-        selected_topic = random.choice(topics)
-
-        model = genai.GenerativeModel("gemini-2.5-flash-lite")
+        model = genai.GenerativeModel(os.getenv("GEMINI_MODEL", "gemini-2.5-flash-lite"))
         prompt = f"""
-        Pick a common phrase with 2 to 4 words **related to the topic of: {selected_topic}**.
+        Pick a common phrase with 2 to 4 words **related to the topic of: {request.topic}**.
         Convert it entirely into Emojis that represent the sounds or meanings of the words.
         Example: "Raining cats and dogs" -> 🌧️ 🐱 🐶
 

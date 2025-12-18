@@ -5,7 +5,6 @@ description = "AI Visual Puzzle Generator API"
 dependencies = [
     "fastapi",
     "uvicorn",
-    "google-generativeai",
     "python-dotenv",
     "pydantic"
 ]

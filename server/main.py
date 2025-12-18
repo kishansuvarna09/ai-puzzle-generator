@@ -1,4 +1,5 @@
 import os
+import random
 
 import google.generativeai as genai
 from dotenv import load_dotenv
@@ -42,72 +43,39 @@ def generate_puzzle(request: PuzzleRequest):
         raise HTTPException(status_code=500, detail="API Key not configured")
 
     try:
+        topics = [
+            "food and cooking", "travel and adventure", "animals", "weather", 
+            "sports", "emotions", "work and office", "fantasy", "nature"
+        ]
+
+        selected_topic = random.choice(topics)
+
         model = genai.GenerativeModel("gemini-2.5-flash-lite")
-        prompt = f"""You are a REBUS puzzle generator.
+        prompt = f"""
+        Pick a common phrase with 2 to 4 words **related to the topic of: {selected_topic}**.
+        Convert it entirely into Emojis that represent the sounds or meanings of the words.
+        Example: "Raining cats and dogs" -> 🌧️ 🐱 🐶
 
-Return a JSON object with exactly two fields:
+        Return a JSON object with exactly two fields:
+        
+        1. "word": the word or phrase.
+        2. "svg": an SVG code string that provides a clever visual clue using Emojis.
 
-1. "word": the idiom or common phrase related to the topic: {request.topic}
-2. "svg": an SVG code string that provides a clever visual clue WITHOUT revealing the answer directly.
+        SVG STYLE RULES:
+        - Use viewBox="0 0 300 300" (DO NOT set fixed width/height attributes on the <svg> tag)
+        - Must include a full background rectangle: 
+          <rect width="300" height="300" fill="black" />
+        - All shapes/text must use:
+          - fill="white"
+          - stroke="white" (if applicable)
+          - font-family="Arial"
+          - font-weight="bold"
+          - text-anchor="middle"
+          - font-size between 30–40 if using text
 
-GLOBAL RULES:
-- Background MUST ALWAYS be solid black.
-- All shapes and text MUST ALWAYS be white.
-- Use only: <svg>, <rect>, <circle>, <polygon>, <line>, <path>, <text>.
-- You may NOT write the idiom or phrase itself in the SVG. You may use:
-  - A single keyword from the idiom (e.g., “TIP” for “Tip of the Iceberg”), OR
-  - Shapes/icons constructed from polygons/lines (preferred)
-
-ALLOWED CLUE STYLES (USE ANY THAT FIT THE IDIOM):
-1. **Positional clues**
-   - Top = high
-   - Bottom = low
-   - Center = average
-   - Between, rising, falling, etc.
-
-2. **Merged or interleaved text clues**
-   - e.g., “HAHANDND” for “Hand in Hand”.
-
-3. **Arrow-based clues**
-   - e.g., >>>>, ↑, ↓, or arrow-shaped polygons.
-
-4. **Size-based clues**
-   - small vs big shapes to indicate scale.
-
-5. **Shape icons (important)**
-   Use polygons/lines to create icons such as:
-   - Iceberg
-   - Mountain
-   - Heart
-   - Drop
-   - Arrow
-   - Wave
-   - Box
-   - Triangle clusters
-   - Any abstract shape representing meaning
-
-6. **Fragmented/broken shapes**
-   - Split polygons
-   - Separated rectangles
-   - Broken lines
-   - Ideal for “break”, “split”, “tear”, “crack”
-
-SVG STYLE RULES:
-- Use viewBox="0 0 300 300" (DO NOT set fixed width/height attributes on the <svg> tag)
-- Must include a full background rectangle:
-  <rect width="300" height="300" fill="black" />
-- All shapes/text must use:
-  - fill="white"
-  - stroke="white" (if applicable)
-  - font-family="Arial"
-  - font-weight="bold"
-  - text-anchor="middle"
-  - font-size between 30–40 if using text
-
-OUTPUT FORMAT:
-Return ONLY JSON with the keys 'word' and 'svg'.
-
-"""
+        OUTPUT FORMAT:
+        Return ONLY JSON with the keys 'word' and 'svg'.
+        """
 
         response = model.generate_content(
             prompt,

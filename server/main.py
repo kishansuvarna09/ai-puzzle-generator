@@ -1,9 +1,9 @@
 import os
 
-import google.generativeai as genai
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from openai import OpenAI
 from pydantic import BaseModel
 
 load_dotenv()
@@ -19,12 +19,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Configure Gemini (expecting GOOGLE_API_KEY in .env)
-api_key = os.getenv("GOOGLE_API_KEY")
+api_key = os.getenv("MODEL_API_KEY")
+model_base_url = os.getenv("MODEL_BASE_URL", "https://api.model.com")
+
+client = None
 if api_key:
-    genai.configure(api_key=api_key)
+    client = OpenAI(api_key=api_key, base_url=model_base_url)
 else:
-    print("Warning: GOOGLE_API_KEY not found in environment variables.")
+    print("Warning: MODEL_API_KEY not found in environment variables.")
 
 
 class PuzzleRequest(BaseModel):
@@ -38,12 +40,11 @@ def read_root():
 
 @app.post("/generate-puzzle")
 def generate_puzzle(request: PuzzleRequest):
-    if not api_key:
+    if not client:
         raise HTTPException(status_code=500, detail="API Key not configured")
 
     try:
 
-        model = genai.GenerativeModel(os.getenv("GEMINI_MODEL", "gemini-2.5-flash-lite"))
         prompt = f"""
         Pick a common phrase with 2 to 4 words **related to the topic of: {request.topic}**.
         Convert it entirely into Emojis that represent the sounds or meanings of the words.
@@ -69,13 +70,14 @@ def generate_puzzle(request: PuzzleRequest):
         OUTPUT FORMAT:
         Return ONLY JSON with the keys 'word' and 'svg'.
         """
+        model_name = os.getenv("MODEL_NAME", "john-doe-1.0")
 
-        response = model.generate_content(
-            prompt,
-            generation_config=genai.types.GenerationConfig(
-                temperature=1.0,
-            ),
+        response = client.chat.completions.create(
+            model=model_name,
+            messages=[{"role": "user", "content": prompt}],
+            temperature=1.0,
+            stream=False,
         )
-        return {"puzzle": response.text}
+        return {"puzzle": response.choices[0].message.content}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

@@ -23,16 +23,31 @@ export const GameManager: React.FC = () => {
     setFeedback('')
 
     const topics = [
-      'animals',
-      'nature',
-      'food',
-      'body parts',
-      'colors',
-      'weather',
-      'emotions',
-      'time',
-      'music',
-      'sports',
+      "Famous Movie Quotes",
+      "Rock Band Names",
+      "Kitchen Disasters",
+      "Sci-Fi Technology",
+      "Ancient Myths",
+      "Things You Find in a Pocket",
+      "Circus Acts",
+      "Under the Ocean",
+      "Time Travel",
+      "Detective Noire",
+      "Superstitions",
+      "Breakfast Foods",
+      "Medieval Weaponry",
+      "Office Buzzwords",
+      "Haunted House Items",
+      "Retro Video Games",
+      "Space Exploration",
+      "Extreme Weather",
+      "Fairy Tale Villains",
+      "Wild West Slang",
+      "Astronaut Food",
+      "Secret Agent Gadgets",
+      "Shakespearean Insults",
+      "Coffee Shop Orders",
+      "Pirate Lingo"
     ]
     const randomTopic = topics[Math.floor(Math.random() * topics.length)]
 

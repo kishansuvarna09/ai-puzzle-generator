@@ -48,7 +48,9 @@ A web application that generates visual rebus puzzles using AI (Google Gemini). 
     ```
 5.  Create a `.env` file in the `server` directory and add your API key:
     ```env
-    GOOGLE_API_KEY=your_api_key_here
+    MODEL_NAME=your_model_name
+    MODEL_API_KEY=your_provider_api_key
+    MODEL_BASE_URL=your_provider_base_url
     ```
 6.  Run the server:
     ```bash

@@ -15,4 +15,4 @@ call server\venv\Scripts\activate
 
 REM Start both servers using pnpm run dev (concurrently)
 echo Starting Backend (FastAPI) and Frontend (Vite)...
-pnpm dev
+cd client && pnpm dev

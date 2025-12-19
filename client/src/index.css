@@ -14,10 +14,10 @@
 
   --surface: #121212;
   /* Dark Gray for inputs/cards */
-  --surface-border: #2a2a2a;
+  --surface-border: #ffffff;
 
   --text: #ffffff;
-  --text-secondary: #9ca3af;
+  --text-secondary: #ffffcc;
 
   --radius: 1.5rem;
   /* More rounded like the reference */
@@ -354,7 +354,7 @@ h1 {
   justify-content: center;
   /* Glassmorphism subtle effect */
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 3px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
   position: relative;
   overflow: hidden;
@@ -387,7 +387,7 @@ h1 {
 input {
   padding: 1.2rem 1.5rem;
   border-radius: 1rem;
-  border: 1px solid var(--surface-border);
+  border: 3px solid var(--surface-border);
   font-size: 1.1rem;
   width: 100%;
   background-color: rgba(18, 18, 18, 0.8);
@@ -406,7 +406,7 @@ input:focus {
 }
 
 input::placeholder {
-  color: #444;
+  color: #ffffff;
 }
 
 /* Dock */
